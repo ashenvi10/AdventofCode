@@ -539,3 +539,79 @@ for (lpRowInd in 1:nrow(lowPoints)){
 print(prod(basinSize[order(basinSize, decreasing=TRUE)][1:3]))
 
 ```
+
+# Puzzle 10
+
+```{r pz10 part1}
+input <- as.data.frame(scan('puzzle10_data.txt', what = character()))
+openBrackets <- c("{", "(", "[", "<")
+closedBrackets <- c("}", ")", "]", ">")
+costPerBracket <- c(1197, 3, 57, 25137)
+
+
+firstIllegalChar <- function(charVec){
+  splitCharVec <- unlist(strsplit(charVec, ""))
+  brackets <- c()
+  cost <- 0
+
+  for (elem in splitCharVec){
+    if (elem %in% openBrackets){
+      brackets <- c(brackets, elem)
+    } else if (elem %in% closedBrackets){
+      openInd <- which(openBrackets == 
+                           brackets[length(brackets)])
+      closedInd <- which(closedBrackets == elem)
+      if (openInd == closedInd){
+        brackets <- brackets[- length(brackets)]
+      } else {
+        cost <- costPerBracket[closedInd]
+        break
+      }
+    }
+  }
+  return(cost)
+}
+
+sum(apply(input, 1, function(x) firstIllegalChar(x)))
+```
+
+```{r pz 10 part2}
+options(scipen = 999)
+
+scorePerBracket <- c(3, 1, 2, 4)
+
+completeIncomplete <- function(charVec){
+  splitCharVec <- unlist(strsplit(charVec, ""))
+  brackets <- c()
+  score <- 0
+  ind <- 0
+  for (elem in splitCharVec){
+    if (elem %in% openBrackets){
+      brackets <- c(brackets, elem)
+    } else if (elem %in% closedBrackets){
+      openInd <- which(openBrackets == 
+                           brackets[length(brackets)])
+      closedInd <- which(closedBrackets == elem)
+      if (openInd == closedInd){
+        brackets <- brackets[- length(brackets)]
+      } else {
+        ind <- -1
+        break
+      }
+    }
+  }
+  if (!is.null(brackets) && ind == 0){
+      for (elem in rev(brackets)){
+        openInd <- which(openBrackets == elem)
+        score <- score*5 + scorePerBracket[openInd]
+      }
+    }
+    
+  return(score)
+}
+
+allScores <- apply(input, 1, function(x) completeIncomplete(x))
+allScores <- allScores[allScores != 0]
+
+print(median(allScores))
+```
