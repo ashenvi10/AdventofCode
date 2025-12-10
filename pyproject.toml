@@ -1,0 +1,36 @@
+[build-system]
+requires = ["poetry-core>=1.4.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry]
+name = "advent-of-code"
+version = "0.0.0" # placeholder - using git tag for version
+description = "AoC"
+authors = []
+maintainers = []
+repository = "https://github.com/UKAdventOfCode"
+packages = [
+    { include = "advent_of_code", from = "source" },
+]
+
+[tool.poetry.dependencies]
+python = "~3.13"
+numpy = "^2.3.5"
+
+[tool.poetry.group.autoformat.dependencies]
+black = ">=23.10"
+isort = "^5.13.2"
+toml-sort = "^0.23.1"
+mypy = "^1.6"
+ruff = "^0.2.2"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^9.0"
+
+
+[tool.black]
+line-length = 120
+
+[tool.coverage.run]
+source = ["source/advent_of_code"]
+
