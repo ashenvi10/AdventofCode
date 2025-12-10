@@ -16,6 +16,8 @@ packages = [
 [tool.poetry.dependencies]
 python = "~3.13"
 numpy = "^2.3.5"
+cvxpy = "^1.7.5"
+pydantic = "^2.12.5"
 
 [tool.poetry.group.autoformat.dependencies]
 black = ">=23.10"
