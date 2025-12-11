@@ -1,5 +1,6 @@
-from advent_of_code.day8 import BoxClusterer, process_input_file
 from pathlib import Path
+
+from advent_of_code.day8 import BoxClusterer, process_input_file
 
 
 def test_part1(data_dir: Path):

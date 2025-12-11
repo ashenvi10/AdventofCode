@@ -1,6 +1,7 @@
+from pathlib import Path
+
 from advent_of_code.day1 import DialOrchestrator
 from advent_of_code.utils import text_to_lines
-from pathlib import Path
 
 
 def test_count_end_value_occurrence(data_dir: Path):

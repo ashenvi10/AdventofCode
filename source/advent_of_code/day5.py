@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import NamedTuple
+
 from advent_of_code.utils import text_to_lines
 
 

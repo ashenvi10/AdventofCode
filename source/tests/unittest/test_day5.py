@@ -1,6 +1,7 @@
-from advent_of_code.day5 import FreshIngredientSorter, get_inventory_and_ingredients
 from pathlib import Path
+
 import pytest
+from advent_of_code.day5 import FreshIngredientSorter, get_inventory_and_ingredients
 
 
 def test_fresh_ingredients(data_dir: Path):

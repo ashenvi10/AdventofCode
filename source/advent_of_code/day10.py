@@ -1,6 +1,7 @@
-import cvxpy as cp
-from pathlib import Path
 import re
+from pathlib import Path
+
+import cvxpy as cp
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -15,21 +16,21 @@ class Machine(BaseModel):
     def parse_indicator_lights(cls, v) -> list[int]:
         v = v.strip("[]")
         return [0 if el == "." else 1 for el in str(v)]
-    
+
     @field_validator("buttons", mode="before")
     @classmethod
     def parse_buttons(cls, v) -> list[tuple[int, ...]]:
         buttons = [button.strip("()") for button in v]
         buttons = [tuple(int(el) for el in button if el != ",") for button in buttons]
         return buttons
-    
+
     @field_validator("joltages", mode="before")
     @classmethod
     def parse_joltages(cls, v) -> list[int]:
         v = v.strip("{}")
         return [int(el) for el in str(v).split(",")]
-    
-            
+
+
 def parse_input(filepath: Path) -> list[Machine]:
     with open(filepath, "r") as file:
         lines = file.readlines()
@@ -46,6 +47,7 @@ def parse_input(filepath: Path) -> list[Machine]:
 
     return machines
 
+
 class Optimizer:
     def __init__(self, machine: Machine, is_button_binary: bool):
         self.machine = machine
@@ -60,9 +62,9 @@ class Optimizer:
         # Auxiliary variables to do mod 2 operations for lighting constraints
         if is_button_binary:
             self.auxillary_vars = cp.Variable(len(self.machine.indicator_lights), integer=True)
-            
+
     def create_constraints(self, *, for_lighting: bool, for_joltage: bool) -> list[cp.Constraint]:
-        
+
         constraints = []
         for idx in range(0, len(self.machine.indicator_lights)):
             button_effects = [j for j, button in enumerate(self.machine.buttons) if idx in button]
@@ -70,22 +72,23 @@ class Optimizer:
             if for_lighting:
                 # The sum of the pressed buttons' effects must match the indicator lights
                 constraints.append(
-                    cp.sum(self.button_vars[button_effects]) - 2 * self.auxillary_vars[idx] == self.machine.indicator_lights[idx]
+                    cp.sum(self.button_vars[button_effects]) - 2 * self.auxillary_vars[idx]
+                    == self.machine.indicator_lights[idx]
                 )
-                
+
             if for_joltage:
                 # Each button press raises the joltage and must match the desired joltage
                 constraints.append(cp.sum(self.button_vars[button_effects]) == self.machine.joltages[idx])
 
         return constraints
-    
-    
+
     def solve(self, *, for_lighting: bool, for_joltage: bool) -> list[int]:
         constraints = self.create_constraints(for_lighting=for_lighting, for_joltage=for_joltage)
         objective = cp.Minimize(cp.sum(self.button_vars))
         problem = cp.Problem(objective, constraints)
         problem.solve()
         return [round(var) for var in self.button_vars.value]
+
 
 def main(filepath: Path, *, for_lighting: bool, for_joltage: bool) -> int:
     machines = parse_input(filepath)

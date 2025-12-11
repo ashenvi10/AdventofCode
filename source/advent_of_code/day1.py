@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import NamedTuple
-from advent_of_code.utils import text_to_lines
 
+from advent_of_code.utils import text_to_lines
 
 direction_map = {
     "L": -1,

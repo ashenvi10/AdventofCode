@@ -1,6 +1,6 @@
-from pathlib import Path
 import dataclasses
 import itertools
+from pathlib import Path
 
 type Box = tuple[int, int, int]
 

@@ -1,5 +1,6 @@
-from advent_of_code.day9 import get_largest_red_green_rectangle, get_latest_rectangle_area, parse_input
 from pathlib import Path
+
+from advent_of_code.day9 import get_largest_red_green_rectangle, get_latest_rectangle_area, parse_input
 
 
 def test_get_latest_rectangle_area(data_dir: Path):

@@ -1,6 +1,7 @@
-from advent_of_code.day4 import RollsCounter
 from pathlib import Path
+
 import pytest
+from advent_of_code.day4 import RollsCounter
 
 
 @pytest.mark.parametrize(

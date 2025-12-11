@@ -1,6 +1,7 @@
-from advent_of_code.day3 import JoltageCalculator
 from pathlib import Path
+
 import pytest
+from advent_of_code.day3 import JoltageCalculator
 
 
 @pytest.mark.parametrize(

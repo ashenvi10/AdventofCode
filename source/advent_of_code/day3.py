@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from advent_of_code.utils import text_to_lines
 
 

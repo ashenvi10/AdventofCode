@@ -1,8 +1,9 @@
 from __future__ import annotations
-import itertools
-from pathlib import Path
+
 import dataclasses
+import itertools
 from functools import cached_property
+from pathlib import Path
 
 
 @dataclasses.dataclass(frozen=True)

@@ -1,6 +1,7 @@
-from advent_of_code.day6 import CephalopodMaths
 from pathlib import Path
+
 import pytest
+from advent_of_code.day6 import CephalopodMaths
 
 
 class TestCephalopodMaths:
